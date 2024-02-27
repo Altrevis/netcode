@@ -9,17 +9,18 @@ public class Server {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Serveur démarré sur le port " + port);
 
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("Client connecté : " + clientSocket.getInetAddress());
+        while (true) {
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client connecté : " + clientSocket.getInetAddress());
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        String message = reader.readLine();
-        System.out.println("Message du client : " + message);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String message = reader.readLine();
+            System.out.println("Message du client : " + message);
 
-        PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
-        writer.println("Message reçu par le serveur : " + message);
+            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+            writer.println("Message reçu par le serveur : " + message);
 
-        clientSocket.close();
-        serverSocket.close();
+            clientSocket.close();
+        }
     }
 }
