@@ -6,6 +6,7 @@ import java.net.*;
 public class Server {
     public static void main(String[] args) throws IOException {
         int port = 8000;
+        @SuppressWarnings("resource")
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Serveur démarré sur le port " + port);
 
