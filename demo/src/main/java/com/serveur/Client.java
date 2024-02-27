@@ -5,7 +5,7 @@ import java.net.*;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        String serverAddress = "192.168.156.252"; // Remplacez cela par l'adresse IP de votre ami
+        String serverAddress = "10.34.6.218"; // Remplacez cela par l'adresse IP de votre ami
         int port = 1234;
 
         Socket socket = new Socket(serverAddress, port);
