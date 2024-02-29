@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client {
+    @SuppressWarnings("resource")
     public static void main(String[] args) throws IOException {
         String serverAddress = "10.34.6.218"; 
         int port = 8000;
