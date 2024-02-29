@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        String serverAddress = "127.0.0.1"; // Remplacez cela par l'adresse IP de votre serveur
+        String serverAddress = "192.168.4.252"; // Remplacez cela par l'adresse IP de votre serveur
         int port = 8000;
         
         Socket socket = new Socket(serverAddress, port);
@@ -16,6 +16,7 @@ public class Client {
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         // Lire les messages de l'utilisateur et les envoyer au serveur
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String userInput;
         while (true) {
