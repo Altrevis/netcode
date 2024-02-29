@@ -32,6 +32,7 @@ public class Server {
     // Méthode pour gérer la déconnexion d'un client
     public static void clientDisconnected(ClientHandler client) {
         System.out.println("Client déconnecté : " + client.getClientSocket().getInetAddress());
+        broadcastMessage("Client déconnecté : " + client.getClientSocket().getInetAddress(), null);
         clients.remove(client);
     }
 }
