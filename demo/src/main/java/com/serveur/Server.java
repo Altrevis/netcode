@@ -15,11 +15,13 @@ public class Server {
             System.out.println("Client connecté : " + clientSocket.getInetAddress());
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String message = reader.readLine();
-            System.out.println("Message du client : " + message);
-
             PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
-            writer.println("Message reçu par le serveur : " + message);
+
+            String message;
+            while ((message = reader.readLine()) != null) {
+                System.out.println("Message du client : " + message);
+                writer.println("Message reçu par le serveur : " + message);
+            }
 
             clientSocket.close();
         }
