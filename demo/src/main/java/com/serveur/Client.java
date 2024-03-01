@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Client {
     @SuppressWarnings("resource")
     public static void main(String[] args) throws IOException {
-        String serverAddress = "10.34.6.218"; // Adresse IP du serveur
+        String serverAddress = "127.0.0.1"; // Adresse IP du serveur
         int port = 8000; // Port du serveur
 
         // Connexion au serveur
@@ -46,9 +46,17 @@ public class Client {
                 String userInput;
                 // Boucle pour lire les entrées de l'utilisateur en continu
                 while (true) {
-                    System.out.print("Client : "); // Invite pour l'utilisateur à entrer un message
+                    System.out.println("1. Envoyer un message");
+                    System.out.println("2. Demander un fichier");
+                    System.out.print("Sélectionnez une option : ");
                     userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
-                    writer[0].println(userInput); // Envoyer le message au serveur
+                    if (userInput.equals("1")) {
+                        System.out.print("Client : "); // Invite pour l'utilisateur à entrer un message
+                        userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
+                        writer[0].println(userInput); // Envoyer le message au serveur
+                    } else if (userInput.equals("2")) {
+                        writer[0].println("request_file"); // Envoyer une demande de fichier au serveur
+                    }
 
                     // Quitter la boucle si l'utilisateur entre "exit"
                     if (userInput.equals("exit")) {
