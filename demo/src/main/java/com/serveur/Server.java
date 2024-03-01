@@ -42,7 +42,7 @@ public class Server {
         try {
             File file = new File("fichier.txt");
             PrintWriter writer = new PrintWriter(file);
-            writer.println("Contenu du fichier...");
+            writer.println("fichier créé");
             writer.close();
             client.sendFile(file);
         } catch (IOException e) {

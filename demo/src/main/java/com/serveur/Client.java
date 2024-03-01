@@ -39,32 +39,36 @@ new Thread(new Runnable() {
     }
 }).start();
 
-// Thread pour envoyer des messages au serveur
 new Thread(new Runnable() {
     @Override
     public void run() {
         String userInput;
+        boolean sendMessages = false;
         // Boucle pour lire les entrées de l'utilisateur en continu
         while (true) {
-            System.out.println("1. Envoyer un message");
-            System.out.println("2. Demander un fichier");
-            System.out.print("Sélectionnez une option : ");
-            userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
-            if (userInput.equals("1")) {
+            if (sendMessages) {
                 System.out.print("Client : "); // Invite pour l'utilisateur à entrer un message
                 userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
-                writer[0].println(userInput); // Envoyer le message au serveur
-            } else if (userInput.equals("2")) {
-                writer[0].println("request_file"); // Envoyer une demande de fichier au serveur
-            }
-
-            // Quitter la boucle si l'utilisateur entre "exit"
-            if (userInput.equals("exit")) {
-                break;
+                if (userInput.equalsIgnoreCase("exitnow")) {
+                    sendMessages = false;
+                } else {
+                    writer[0].println(userInput); // Envoyer le message au serveur
+                }
+            } else {
+                System.out.println("1. Envoyer un message");
+                System.out.println("2. Demander un fichier");
+                System.out.print("Sélectionnez une option : ");
+                userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
+                if (userInput.equals("1")) {
+                    sendMessages = true;
+                } else if (userInput.equals("2")) {
+                    writer[0].println("request_file"); // Envoyer une demande de fichier au serveur
+                }
             }
         }
     }
 }).start();
+
 
         // Attendre que les threads se terminent
         try {
