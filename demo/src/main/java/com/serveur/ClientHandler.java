@@ -19,24 +19,9 @@ public class ClientHandler extends Thread {
             String message;
             while ((message = reader.readLine()) != null) {
                 System.out.println("Message du client : " + message);
-
-                // Condition pour gérer les demandes de fichiers
                 if (message.equals("request_file")) {
-                    try {
-                        // Génération du contenu du fichier texte
-                        String fileContent = "Contenu du fichier généré par le serveur.";
-                        
-                        // Envoi du contenu du fichier au client ligne par ligne
-                        writer.println(fileContent);
-
-                        // Affichage côté serveur
-                        System.out.println("Fichier envoyé au client : ");
-                        System.out.println(fileContent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Server.processFileRequest(this);
                 } else {
-                    // Diffusion du message à tous les clients connectés
                     Server.broadcastMessage("Client " + clientSocket.getInetAddress() + " : " + message, this);
                 }
             }
@@ -56,12 +41,23 @@ public class ClientHandler extends Thread {
         writer.println(message);
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
+    public void sendFile(File file) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            OutputStream outputStream = clientSocket.getOutputStream();
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            fileInputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void sendFile(File file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sendFile'");
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }
