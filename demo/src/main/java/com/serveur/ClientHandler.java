@@ -51,7 +51,7 @@ public class ClientHandler extends Thread {
                 outputStream.write(buffer, 0, bytesRead);
             }
             fileInputStream.close();
-            outputStream.close();
+           
         } catch (IOException e) {
             e.printStackTrace();
         }
