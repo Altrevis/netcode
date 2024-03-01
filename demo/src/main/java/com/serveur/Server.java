@@ -14,18 +14,19 @@ public class Server {
         System.out.println("Serveur démarré sur le port " + port);
 
         while (true) {
-            Socket clientSocket = serverSocket.accept();
+            Socket clientSocket = serverSocket.accept(); // Attendre qu'un client se connecte
             System.out.println("Client connecté : " + clientSocket.getInetAddress());
-            ClientHandler clientHandler = new ClientHandler(clientSocket);
-            clients.add(clientHandler);
-            clientHandler.start();
+            ClientHandler clientHandler = new ClientHandler(clientSocket); // Créer un gestionnaire de client pour ce client
+            clients.add(clientHandler); // Ajouter le gestionnaire de client à la liste des clients
+            clientHandler.start(); // Démarrer le thread pour gérer ce client
         }
     }
 
+    // Méthode pour diffuser un message à tous les clients
     public static void broadcastMessage(String message, ClientHandler sender) {
         for (ClientHandler client : clients) {
-            if (client != sender) {
-                client.sendMessage(message);
+            if (client != sender) { // Vérifier que le client n'est pas l'expéditeur
+                client.sendMessage(message); // Envoyer le message au client
             }
         }
     }
@@ -33,18 +34,18 @@ public class Server {
     // Méthode pour gérer la déconnexion d'un client
     public static void clientDisconnected(ClientHandler client) {
         System.out.println("Client déconnecté : " + client.getClientSocket().getInetAddress());
-        broadcastMessage("Client déconnecté : " + client.getClientSocket().getInetAddress(), null);
-        clients.remove(client);
+        broadcastMessage("Client déconnecté : " + client.getClientSocket().getInetAddress(), null); // Diffuser un message sur la déconnexion du client
+        clients.remove(client); // Supprimer le client de la liste des clients
     }
 
     // Méthode pour traiter la demande de fichier
     public static void processFileRequest(ClientHandler client) {
         try {
-            File file = new File("fichier.txt");
+            File file = new File("fichier.txt"); // Créer un nouveau fichier
             PrintWriter writer = new PrintWriter(file);
-            writer.println("fichier créé");
-            writer.close();
-            client.sendFile(file);
+            writer.println("fichier créé"); // Écrire dans le fichier
+            writer.close(); // Fermer le flux d'écriture
+            client.sendFile(file); // Envoyer le fichier au client
         } catch (IOException e) {
             e.printStackTrace();
         }

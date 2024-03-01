@@ -22,53 +22,46 @@ public class Client {
         final Scanner[] scanner = new Scanner[1];
         scanner[0] = new Scanner(System.in);
 
-        // Thread pour lire les réponses du serveur
-new Thread(new Runnable() {
-    @Override
-    public void run() {
-        try {
-            String response;
-            // Boucle pour lire les réponses du serveur en continu
-            while ((response = reader[0].readLine()) != null) {
-                System.out.println("Réponse du serveur : " + response);
-                System.out.print("Client : "); // Invite pour le client à entrer un message
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}).start();
-
-new Thread(new Runnable() {
-    @Override
-    public void run() {
-        String userInput;
-        boolean sendMessages = false;
-        // Boucle pour lire les entrées de l'utilisateur en continu
-        while (true) {
-            if (sendMessages) {
-                System.out.print("Client : "); // Invite pour l'utilisateur à entrer un message
-                userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
-                if (userInput.equalsIgnoreCase("exitnow")) {
-                    sendMessages = false;
-                } else {
-                    writer[0].println(userInput); // Envoyer le message au serveur
+        // Démarrer un nouveau thread pour gérer la communication avec le serveur
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String userInput;
+                boolean sendMessages = false;
+                try {
+                    String response;
+                    // Boucle pour lire les réponses du serveur en continu
+                    while ((response = reader[0].readLine()) != null) {
+                        System.out.println("Réponse du serveur : " + response);
+                        System.out.print("Client : "); // Invite pour le client à entrer un message
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } else {
-                System.out.println("1. Envoyer un message");
-                System.out.println("2. Demander un fichier");
-                System.out.print("Sélectionnez une option : ");
-                userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
-                if (userInput.equals("1")) {
-                    sendMessages = true;
-                } else if (userInput.equals("2")) {
-                    writer[0].println("request_file"); // Envoyer une demande de fichier au serveur
+                // Boucle pour lire les entrées de l'utilisateur en continu
+                while (true) {
+                    if (sendMessages) {
+                        System.out.print("Client : "); // Invite pour l'utilisateur à entrer un message
+                        userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
+                        if (userInput.equalsIgnoreCase("exitnow")) {
+                            sendMessages = false;
+                        } else {
+                            writer[0].println(userInput); // Envoyer le message au serveur
+                        }
+                    } else {
+                        System.out.println("1. Envoyer un message");
+                        System.out.println("2. Demander un fichier");
+                        System.out.print("Sélectionnez une option : ");
+                        userInput = scanner[0].nextLine(); // Lire l'entrée de l'utilisateur
+                        if (userInput.equals("1")) {
+                            sendMessages = true;
+                        } else if (userInput.equals("2")) {
+                            writer[0].println("request_file"); // Envoyer une demande de fichier au serveur
+                        }
+                    }
                 }
             }
-        }
-    }
-}).start();
-
+        }).start();
 
         // Attendre que les threads se terminent
         try {
