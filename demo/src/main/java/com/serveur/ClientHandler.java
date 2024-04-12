@@ -23,7 +23,6 @@ public class ClientHandler extends Thread {
             while ((message = reader.readLine()) != null) {
                 System.out.println("Message du client : " + message);
                 if (message.equals("request_file")) {
-                    Server.processFileRequest(this); // Traiter la demande de fichier
                 } else {
                     Server.broadcastMessage("Client " + clientSocket.getInetAddress() + " : " + message, this); // Diffuser le message à tous les clients
                 }

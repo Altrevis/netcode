@@ -37,17 +37,4 @@ public class Server {
         broadcastMessage("Client déconnecté : " + client.getClientSocket().getInetAddress(), null); // Diffuser un message sur la déconnexion du client
         clients.remove(client); // Supprimer le client de la liste des clients
     }
-
-    // Méthode pour traiter la demande de fichier
-    public static void processFileRequest(ClientHandler client) {
-        try {
-            File file = new File("fichier.txt"); // Créer un nouveau fichier
-            PrintWriter writer = new PrintWriter(file);
-            writer.println("fichier créé"); // Écrire dans le fichier
-            writer.close(); // Fermer le flux d'écriture
-            client.sendFile(file); // Envoyer le fichier au client
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
